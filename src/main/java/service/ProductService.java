@@ -1,5 +1,6 @@
 package service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,5 +30,9 @@ public class ProductService {
 		}
 		productRepo.insert(product);
 		return product;
+	}
+	
+	public List<Product> getProducts(){
+		return productRepo.getProducts();
 	}
 }

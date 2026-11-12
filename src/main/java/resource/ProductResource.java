@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import dto.ProductRequestDto;
+import dto.ProductResponseDto;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -52,5 +53,12 @@ public class ProductResource {
 		Product product = ProductUtil.dtoToProduct(productRequest);
 		service.createProduct(product);
 		return Response.status(Status.CREATED).entity(Map.of("message", "Product has been created")).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProducts() {
+		List<ProductResponseDto> products = service.getProducts().stream().map(ProductResponseDto::new).toList();
+		return Response.ok(products).build();
 	}
 }

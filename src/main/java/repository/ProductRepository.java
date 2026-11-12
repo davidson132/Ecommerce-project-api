@@ -1,5 +1,8 @@
 package repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -16,5 +19,10 @@ public class ProductRepository {
 	public void insert(Product product) {
 		MongoCollection<Product> products = db.getCollection("products", Product.class);
 		products.insertOne(product);
+	}
+	
+	public List<Product> getProducts(){
+		MongoCollection<Product> products = db.getCollection("products", Product.class);
+		return products.find().into(new ArrayList<>());
 	}
 }
