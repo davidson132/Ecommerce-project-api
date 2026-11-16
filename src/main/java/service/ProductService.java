@@ -2,7 +2,10 @@ package service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+
+import org.bson.types.ObjectId;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -34,5 +37,9 @@ public class ProductService {
 	
 	public List<Product> getProducts(){
 		return productRepo.getProducts();
+	}
+	
+	public Optional<Product> getProductById(ObjectId id){
+		return productRepo.getProductById(id);
 	}
 }

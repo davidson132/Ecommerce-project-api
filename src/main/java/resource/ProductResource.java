@@ -3,10 +3,13 @@ package resource;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.bson.types.ObjectId;
 
 import dto.ProductRequestDto;
 import dto.ProductResponseDto;
@@ -60,5 +63,17 @@ public class ProductResource {
 	public Response getProducts() {
 		List<ProductResponseDto> products = service.getProducts().stream().map(ProductResponseDto::new).toList();
 		return Response.ok(products).build();
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProductById(@PathParam("id") String id) {
+		if(!ObjectId.isValid(id)) {
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must be a valid Object Id")).build();
+		}
+		
+		return service.getProductById(new ObjectId(id)).map(product -> Response.ok(new ProductResponseDto(product)).build())
+				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build());
 	}
 }

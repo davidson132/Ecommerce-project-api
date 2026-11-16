@@ -2,9 +2,13 @@ package repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,13 +20,18 @@ public class ProductRepository {
 	@Inject
 	private MongoDatabase db;
 	
+	private MongoCollection<Product> products = db.getCollection("products", Product.class);
+	
 	public void insert(Product product) {
-		MongoCollection<Product> products = db.getCollection("products", Product.class);
 		products.insertOne(product);
 	}
 	
 	public List<Product> getProducts(){
-		MongoCollection<Product> products = db.getCollection("products", Product.class);
 		return products.find().into(new ArrayList<>());
+	}
+	
+	public Optional<Product> getProductById(ObjectId id){
+		Product product =  products.find(Filters.eq("_id", id)).first();
+		return Optional.ofNullable(product);
 	}
 }
