@@ -2,6 +2,7 @@ package resource;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
@@ -75,5 +76,19 @@ public class ProductResource {
 		
 		return service.getProductById(new ObjectId(id)).map(product -> Response.ok(new ProductResponseDto(product)).build())
 				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build());
+	}
+	
+	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateProduct(@PathParam("id") String id, ProductRequestDto request) {
+		if(!ObjectId.isValid(id)) {
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must be a valid Object Id")).build();
+		}
+		if(request == null) {
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Product request is required")).build();
+		}
+		return Response.ok().build();
 	}
 }

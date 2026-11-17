@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.bson.types.ObjectId;
 
+import dto.ProductRequestDto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
@@ -41,5 +42,10 @@ public class ProductService {
 	
 	public Optional<Product> getProductById(ObjectId id){
 		return productRepo.getProductById(id);
+	}
+	
+	public Optional<Product> updateProductById(ObjectId id, ProductRequestDto request){
+		
+		return Optional.ofNullable(null);
 	}
 }

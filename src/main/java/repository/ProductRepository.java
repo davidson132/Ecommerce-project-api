@@ -10,6 +10,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import model.Product;
@@ -20,7 +21,12 @@ public class ProductRepository {
 	@Inject
 	private MongoDatabase db;
 	
-	private MongoCollection<Product> products = db.getCollection("products", Product.class);
+	private MongoCollection<Product> products;
+	
+	@PostConstruct
+	void initialize() {
+		products = db.getCollection("products", Product.class);
+	}
 	
 	public void insert(Product product) {
 		products.insertOne(product);
