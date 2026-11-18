@@ -86,9 +86,19 @@ public class ProductResource {
 		if(!ObjectId.isValid(id)) {
 			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must be a valid Object Id")).build();
 		}
+		
 		if(request == null) {
 			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Product request is required")).build();
 		}
-		return Response.ok().build();
+		
+		Set<ConstraintViolation<ProductRequestDto>> violations = validate.validate(request);
+		if(!violations.isEmpty()) {
+			List<String> errors = violations.stream().map(violation -> violation.getPropertyPath() + ":" + violation.getMessage()).toList();
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("errors", errors)).build();
+		}
+		
+		return service.updateProductById(new ObjectId(id), request).map(product -> Response.ok(product).build())
+				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build()); 
+		
 	}
 }
