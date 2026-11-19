@@ -97,7 +97,7 @@ public class ProductResource {
 			return Response.status(Status.BAD_REQUEST).entity(Map.of("errors", errors)).build();
 		}
 		
-		return service.updateProductById(new ObjectId(id), request).map(product -> Response.ok(product).build())
+		return service.updateProductById(new ObjectId(id), request).map(product -> Response.ok(new ProductResponseDto(product)).build())
 				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build()); 
 		
 	}

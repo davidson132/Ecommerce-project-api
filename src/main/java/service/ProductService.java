@@ -15,6 +15,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import model.Product;
 import repository.ProductRepository;
+import util.ProductUtil;
 
 @ApplicationScoped
 public class ProductService {
@@ -45,7 +46,7 @@ public class ProductService {
 	}
 	
 	public Optional<Product> updateProductById(ObjectId id, ProductRequestDto request){
-		
-		return Optional.ofNullable(null);
+		Product product = ProductUtil.dtoToProduct(request);
+		return productRepo.updateById(id, product);
 	}
 }
