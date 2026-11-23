@@ -1,5 +1,6 @@
 package resource;
 
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -71,7 +72,7 @@ public class ProductResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProductById(@PathParam("id") String id) {
 		if(!ObjectId.isValid(id)) {
-			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must be a valid Object Id")).build();
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must have valid Object Id")).build();
 		}
 		
 		return service.getProductById(new ObjectId(id)).map(product -> Response.ok(new ProductResponseDto(product)).build())
@@ -84,7 +85,7 @@ public class ProductResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateProduct(@PathParam("id") String id, ProductRequestDto request) {
 		if(!ObjectId.isValid(id)) {
-			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must be a valid Object Id")).build();
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must have valid Object Id")).build();
 		}
 		
 		if(request == null) {
@@ -100,5 +101,16 @@ public class ProductResource {
 		return service.updateProductById(new ObjectId(id), request).map(product -> Response.ok(new ProductResponseDto(product)).build())
 				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build()); 
 		
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteById(@PathParam("id") String id) {
+		if(!ObjectId.isValid(id)) {
+			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must have vaild Object Id")).build();
+		}
+		
+		return Response.ok().build();
 	}
 }

@@ -49,4 +49,8 @@ public class ProductService {
 		Product product = ProductUtil.dtoToProduct(request);
 		return productRepo.updateById(id, product);
 	}
+	
+	public Optional<Product> deleteByProductId(ObjectId id){
+		return productRepo.deleteById(id);
+	}
 }

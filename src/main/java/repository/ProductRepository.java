@@ -58,4 +58,14 @@ public class ProductRepository {
 				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 		return Optional.ofNullable(updatedProduct);
 	}
+	
+	public Optional<Product> deleteById(ObjectId id){
+		Product deletedProduct = products.findOneAndUpdate(
+				Filters.eq("_id", id),
+				Updates.set("status", "inactive"),
+				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+				);
+		
+		return Optional.ofNullable(deletedProduct);
+	}
 }

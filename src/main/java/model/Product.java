@@ -39,6 +39,8 @@ public class Product {
 	
 	@BsonProperty("created_At")
 	private Instant created = Instant.now();
+	
+	private String status = "active";
 
 	public ObjectId getId() {
 		return id;
@@ -95,11 +97,19 @@ public class Product {
 	public void setCreated(Instant created) {
 		this.created = created;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
-				+ stock + ", category=" + category + ", created=" + created + "]";
+				+ stock + ", category=" + category + ", created=" + created + ", status=" + status + "]";
 	}
 	
 	
