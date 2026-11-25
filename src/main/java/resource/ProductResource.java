@@ -111,6 +111,7 @@ public class ProductResource {
 			return Response.status(Status.BAD_REQUEST).entity(Map.of("error", "Request must have vaild Object Id")).build();
 		}
 		
-		return Response.ok().build();
+		return service.deleteByProductId(new ObjectId(id)).map(product -> Response.ok(new ProductResponseDto(product)).build())
+				.orElseGet(() -> Response.status(Status.NOT_FOUND).entity(Map.of("error", "Product not found")).build());
 	}
 }

@@ -69,7 +69,7 @@ public class ProductRequestDto {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ProductDto [name=" + name + ", description=" + description + ", price=" + price + ", stock=" + stock

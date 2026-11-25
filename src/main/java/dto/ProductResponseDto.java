@@ -14,6 +14,7 @@ public class ProductResponseDto {
 	private int stock;
 	private String category;
 	private Instant created;
+	private String status;
 	
 	public ProductResponseDto(Product product) {
 		this.id = product.getId().toString();
@@ -23,6 +24,7 @@ public class ProductResponseDto {
 		this.stock = product.getStock();
 		this.category = product.getCategory();
 		this.created = product.getCreated();
+		this.status = product.getStatus();
 	}
 	
 	public String getId() {
@@ -67,10 +69,16 @@ public class ProductResponseDto {
 	public void setCreated(Instant created) {
 		this.created = created;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "ProductResponseDto [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-				+ ", stock=" + stock + ", category=" + category + ", created=" + created + "]";
+				+ ", stock=" + stock + ", category=" + category + ", created=" + created + ", status=" + status + "]";
 	}
 	
 	
